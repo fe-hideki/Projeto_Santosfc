@@ -2,6 +2,7 @@ create database portal_do_peixe;
 use portal_do_peixe;
 
 create table cadastro(
+idCadastro int not null auto_increment primary key,
 email varchar(70),
 nome varchar(70),
 cpf char(14),
@@ -11,3 +12,4 @@ cidade varchar(70),
 sigla char(2),
 senha varchar(20)
 );
+
