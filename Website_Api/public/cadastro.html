@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>AquaTech | Cadastro</title>
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/icon/favicon2.ico" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+</head>
+
+<body onload="listar()">
+
+  <header class="menu">
+    <div class="menu-esquerda">
+      <a href="#quem_somos">Quem somos</a>
+      <a href="#historia">História</a>
+      <a href="#jogadores">Jogadores</a>
+    </div>
+
+    <div class="menu-centro">
+      <a href="index.html">
+        <img src="Imagens/santos.png" alt="Logo do Santos FC" class="logo">
+      </a>
+    </div>
+
+    <div class="menu-direita">
+      <a href="login.html">Login</a>
+      <a href="cadastro.html">Cadastro</a>
+    </div>
+  </header>
+
+  <main class="cadastro-branco">
+    <section class="card-branco">
+      <img src="Imagens/santos.png" alt="Santos FC" class="logo-cadastro" />
+      <h2>Cadastre-se e faça parte do futuro do Peixe</h2>
+
+      <div id="cardErro" class="alerta_erro">
+        <span id="mensagem_erro"></span>
+      </div>
+
+      <form onsubmit="cadastrar(); return false;" class="formulario-branco">
+        <input id="email_input" type="email" placeholder="E-mail" />
+        <input id="nome_input" type="text" placeholder="Nome completo" />
+        <input id="cpf_input" type="text" placeholder="CPF" />
+        <input id="nascimento_input" type="date" />
+        <input id="endereco_input" type="text" placeholder="Endereço" />
+        <input id="cidade_input" type="text" placeholder="Cidade" />
+        <input id="estado_input" type="text" maxlength="2" placeholder="UF" />
+        <input id="senha_input" type="password" placeholder="Senha" />
+        <input id="confirmacao_senha_input" type="password" placeholder="Confirmar senha" />
+        <button class="botao-dourado">Cadastrar</button>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <h4>Feito com amor por aluno &hearts; SPTech &copy; 2023</h4>
+      <span class="version">v1.0.0</span>
+    </div>
+  </footer>
+</body>
+
+</html>
+
+<script>
+
+  function cadastrar() {
+    var emailVar = email_input.value;
+    var nomeVar = nome_input.value;
+    var cpfVar = cpf_input.value;
+    var nascimentoVar = nascimento_input.value;
+    var enderecoVar = endereco_input.value;
+    var cidadeVar = cidade_input.value;
+    var estadoVar = estado_input.value;
+    var senhaVar = senha_input.value;
+    var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+    if (
+      emailVar == "" ||
+      nomeVar == "" ||
+      cpfVar == "" ||
+      nascimentoVar == "" ||
+      enderecoVar == "" ||
+      cidadeVar == "" ||
+      estadoVar == "" ||
+      senhaVar == "" ||
+      confirmacaoSenhaVar == ""
+    ) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "Preencha todos os campos!";
+      return false;
+    }
+
+    if (senhaVar !== confirmacaoSenhaVar) {
+      cardErro.style.display = "block";
+      mensagem_erro.innerHTML = "As senhas não coincidem!";
+      return false;
+    }
+
+    fetch("/usuarios/cadastrar", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        emailServer: emailVar,
+        nomeServer: nomeVar,
+        cpfServer: cpfVar,
+        nascimentoServer: nascimentoVar,
+        enderecoServer: enderecoVar,
+        cidadeServer: cidadeVar,
+        estadoServer: estadoVar,
+        senhaServer: senhaVar,
+      }),
+    })
+      .then((resposta) => {
+        if (resposta.ok) {
+          mensagem_erro.innerHTML = "Cadastro realizado!";
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 2000);
+        } else {
+          throw "Erro ao cadastrar.";
+        }
+      })
+      .catch((erro) => {
+        console.log("Erro:", erro);
+      });
+  }
+
+
+  function sumirMensagem() {
+    cardErro.style.display = "none";
+  }
+</script>
