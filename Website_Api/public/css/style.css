@@ -332,7 +332,7 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     min-height: 150vh;
+     min-height: 120vh;
      background: url('../Imagens/fundo-santos.jpg') center center / cover no-repeat;
      overflow: hidden;
  }
@@ -429,7 +429,7 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     min-height: 150vh;
+     min-height: 120vh;
      background: url('../Imagens/fundo-santos.jpg') center center / cover no-repeat;
      overflow: hidden;
  }
