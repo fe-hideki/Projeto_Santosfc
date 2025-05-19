@@ -1,4 +1,4 @@
-var database = require("../database/config");
+var database = require("../database/db");
 
 function buscarUltimasMedidas(idAquario, limite_linhas) {
 

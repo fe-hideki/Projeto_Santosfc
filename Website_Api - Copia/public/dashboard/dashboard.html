@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal do Peixe | Dashboard</title>
+    <link rel="stylesheet" href="./../css/dashboard.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <header class="menu">
+        <div class="menu-esquerda">
+            <a href="../index.html">Início</a>
+        </div>
+
+        <div class="menu-centro">
+            <a href="../index.html">
+                <img src="../Imagens/santos.png" alt="Logo do Santos FC" class="logo">
+            </a>
+        </div>
+
+        <div class="menu-direita">
+            <a href="../login.html" onclick="limparSessao()">Sair</a>
+        </div>
+    </header>
+
+    <main style="padding: 20px;">
+        <h2>Estatísticas do Questionário</h2>
+
+        <div class="graficos-grid">
+            <div class="grafico-item"><canvas id="graficoQ1"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ2"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ3"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ4"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ5"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ6"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ7"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ8"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ9"></canvas></div>
+            <div class="grafico-item"><canvas id="graficoQ10"></canvas></div>
+        </div>
+    </main>
+
+    <script>
+        function criarGrafico(ctxId, titulo, dados) {
+            const labels = dados.map(d => d.resposta);
+            const valores = dados.map(d => d.total);
+
+            new Chart(document.getElementById(ctxId), {
+                type: "pie",
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: titulo,
+                        data: valores,
+                        backgroundColor: [
+                            "#ffc107", "#ff6384", "#36a2eb", "#4bc0c0", "#9966ff",
+                            "#ff9f40", "#c45850", "#3cba9f", "#8e5ea2", "#e8c3b9"
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: titulo,
+                            font: { size: 16 }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function carregarGraficosQuestionario() {
+            fetch("/questionario/estatisticas")
+                .then(res => res.json())
+                .then(([q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]) => {
+                    criarGrafico("graficoQ1", "1. Maior jogador da história do Santos", q1);
+                    criarGrafico("graficoQ2", "2. Título mais marcante do Santos", q2);
+                    criarGrafico("graficoQ3", "3. Técnico que mais marcou", q3);
+                    criarGrafico("graficoQ4", "4. Conquista que deseja ver novamente", q4);
+                    criarGrafico("graficoQ5", "5. Geração preferida do Santos", q5);
+                    criarGrafico("graficoQ6", "6. Jogador mais habilidoso", q6);
+                    criarGrafico("graficoQ7", "7. Estádio preferido", q7);
+                    criarGrafico("graficoQ8", "8. Rival preferido para vencer", q8);
+                    criarGrafico("graficoQ9", "9. Estilo de camisa preferido", q9);
+                    criarGrafico("graficoQ10", "10. Faixa etária", q10);
+                })
+                .catch(err => console.error("Erro ao carregar estatísticas:", err));
+        }
+
+        function limparSessao() {
+            sessionStorage.clear();
+        }
+
+        window.onload = carregarGraficosQuestionario;
+    </script>
+</body>
+
+</html>

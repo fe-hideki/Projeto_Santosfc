@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Portal do Peixe | Cadastro</title>
+
+  <script src="./js/sessao.js"></script>
+
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="icon" href="./assets/icon/favicon2.ico" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+</head>
+
+<body>
+
+  <header class="menu">
+    <div class="menu-esquerda">
+      <a href="#quem_somos">Quem somos</a>
+      <a href="#historia">História</a>
+      <a href="#jogadores">Jogadores</a>
+    </div>
+
+    <div class="menu-centro">
+      <a href="index.html">
+        <img src="Imagens/santos.png" alt="Logo do Santos FC" class="logo">
+      </a>
+    </div>
+
+    <div class="menu-direita">
+      <a href="login.html">Login</a>
+      <a href="cadastro.html">Cadastro</a>
+    </div>
+  </header>
+
+  <!-- ... cabeçalho e estilos permanecem iguais ... -->
+
+  <div class="cadastro-branco">
+    <div class="card-branco">
+      <img src="Imagens/santos.png" alt="Santos FC" class="logo-cadastro" />
+      <h2>Cadastre-se e faça parte do futuro do Peixe</h2>
+
+      <div id="cardErro" class="alerta_erro">
+        <span id="mensagem_erro"></span>
+      </div>
+
+      <form onsubmit="cadastrar(); return false;" class="formulario-branco">
+        <input id="email_input" type="email" placeholder="E-mail" />
+        <input id="nome_input" type="text" placeholder="Nome completo" />
+        <input id="cpf_input" type="text" placeholder="CPF" />
+        <input id="nascimento_input" type="date" />
+        <input id="endereco_input" type="text" placeholder="Endereço" />
+        <input id="cidade_input" type="text" placeholder="Cidade" />
+        <input id="estado_input" type="text" maxlength="2" placeholder="UF" />
+        <input id="senha_input" type="password" placeholder="Senha" />
+        <input id="confirmacao_senha_input" type="password" placeholder="Confirmar senha" />
+      </form>
+    </div>
+  </div>
+  <!-- Questionário fora da caixa de cadastro -->
+  <section class="questionario-sfc">
+    <h2>Queremos conhecer um pouco mais sobre você</h2>
+    <form id="formQuestionario">
+      <div class="pergunta">
+        <p><strong>1. Qual desses jogadores foi o maior da história do Santos?</strong></p>
+        <label><input type="radio" name="q1" value="Pelé" /> Pelé</label><br />
+        <label><input type="radio" name="q1" value="Neymar" /> Neymar</label><br />
+        <label><input type="radio" name="q1" value="Coutinho" /> Coutinho</label><br />
+        <label><input type="radio" name="q1" value="Zito" /> Zito</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>2. Qual é o título mais marcante do Santos?</strong></p>
+        <label><input type="radio" name="q2" value="Libertadores 2011" /> Libertadores 2011</label><br />
+        <label><input type="radio" name="q2" value="Mundial 1962" /> Mundial 1962</label><br />
+        <label><input type="radio" name="q2" value="Brasileirão 2002" /> Brasileirão 2002</label><br />
+        <label><input type="radio" name="q2" value="Paulistão 2010" /> Paulistão 2010</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>3. Qual desses técnicos marcou mais o Santos?</strong></p>
+        <label><input type="radio" name="q3" value="Lula" /> Lula</label><br />
+        <label><input type="radio" name="q3" value="Muricy Ramalho" /> Muricy Ramalho</label><br />
+        <label><input type="radio" name="q3" value="Leão" /> Leão</label><br />
+        <label><input type="radio" name="q3" value="Dorival Júnior" /> Dorival Júnior</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>4. Qual dessas conquistas você gostaria de ver o Santos vencer novamente?</strong></p>
+        <label><input type="radio" name="q4" value="Libertadores" /> Libertadores</label><br />
+        <label><input type="radio" name="q4" value="Brasileirão" /> Brasileirão</label><br />
+        <label><input type="radio" name="q4" value="Copa do Brasil" /> Copa do Brasil</label><br />
+        <label><input type="radio" name="q4" value="Mundial de Clubes" /> Mundial de Clubes</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>5. Qual geração do Santos você mais gostou?</strong></p>
+        <label><input type="radio" name="q5" value="Anos 60" /> Anos 60</label><br />
+        <label><input type="radio" name="q5" value="Anos 2000" /> Anos 2000</label><br />
+        <label><input type="radio" name="q5" value="Anos 2010" /> Anos 2010</label><br />
+        <label><input type="radio" name="q5" value="Atual" /> Atual</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>6. Quem foi o jogador mais habilidoso que você viu no Santos?</strong></p>
+        <label><input type="radio" name="q6" value="Robinho" /> Robinho</label><br />
+        <label><input type="radio" name="q6" value="Neymar" /> Neymar</label><br />
+        <label><input type="radio" name="q6" value="Giovanni" /> Giovanni</label><br />
+        <label><input type="radio" name="q6" value="Rodrygo" /> Rodrygo</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>7. Qual estádio você mais gosta de ver o Santos jogar?</strong></p>
+        <label><input type="radio" name="q7" value="Vila Belmiro" /> Vila Belmiro</label><br />
+        <label><input type="radio" name="q7" value="Morumbi" /> Morumbi</label><br />
+        <label><input type="radio" name="q7" value="Pacaembu" /> Pacaembu</label><br />
+        <label><input type="radio" name="q7" value="Maracanã" /> Maracanã</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>8. Qual desses rivais você mais gosta de vencer?</strong></p>
+        <label><input type="radio" name="q8" value="Corinthians" /> Corinthians</label><br />
+        <label><input type="radio" name="q8" value="Palmeiras" /> Palmeiras</label><br />
+        <label><input type="radio" name="q8" value="São Paulo" /> São Paulo</label><br />
+        <label><input type="radio" name="q8" value="Flamengo" /> Flamengo</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>9. Qual estilo de camisa você mais gosta no Santos?</strong></p>
+        <label><input type="radio" name="q9" value="Tradicional listrada" /> Tradicional listrada</label><br />
+        <label><input type="radio" name="q9" value="Branca lisa" /> Branca lisa</label><br />
+        <label><input type="radio" name="q9" value="Preta reserva" /> Preta reserva</label><br />
+        <label><input type="radio" name="q9" value="Retrô" /> Retrô</label><br />
+        <br>
+      </div>
+
+      <div class="pergunta">
+        <p><strong>10. Qual faixa etária você pertence?</strong></p>
+        <label><input type="radio" name="q10" value="Menos de 18" /> Menos de 18</label><br />
+        <label><input type="radio" name="q10" value="18 a 29" /> 18 a 29</label><br />
+        <label><input type="radio" name="q10" value="30 a 45" /> 30 a 45</label><br />
+        <label><input type="radio" name="q10" value="Mais de 45" /> Mais de 45</label><br />
+        <br>
+      </div>
+      <br />
+      <button type="button" onclick="cadastrar()" class="botao-dourado">Cadastrar</button>
+    </form>
+  </section>
+
+  <script>
+    function cadastrar() {
+      var emailVar = email_input.value;
+      var nomeVar = nome_input.value;
+      var cpfVar = cpf_input.value;
+      var nascimentoVar = nascimento_input.value;
+      var enderecoVar = endereco_input.value;
+      var cidadeVar = cidade_input.value;
+      var estadoVar = estado_input.value;
+      var senhaVar = senha_input.value;
+      var confirmacaoSenhaVar = confirmacao_senha_input.value;
+
+      if (
+        emailVar == "" ||
+        nomeVar == "" ||
+        cpfVar == "" ||
+        nascimentoVar == "" ||
+        enderecoVar == "" ||
+        cidadeVar == "" ||
+        estadoVar == "" ||
+        senhaVar == "" ||
+        confirmacaoSenhaVar == ""
+      ) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "Preencha todos os campos!";
+        return false;
+      }
+
+      if (senhaVar !== confirmacaoSenhaVar) {
+        cardErro.style.display = "block";
+        mensagem_erro.innerHTML = "As senhas não coincidem!";
+        return false;
+      }
+
+      for (let i = 1; i <= 10; i++) {
+        const resposta = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!resposta) {
+          cardErro.style.display = "block";
+          mensagem_erro.innerHTML = `Responda à pergunta ${i} do questionário.`;
+          return false;
+        }
+      }
+
+      fetch("/usuarios/cadastrar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          emailServer: emailVar,
+          nomeServer: nomeVar,
+          cpfServer: cpfVar,
+          nascimentoServer: nascimentoVar,
+          enderecoServer: enderecoVar,
+          cidadeServer: cidadeVar,
+          estadoServer: estadoVar,
+          senhaServer: senhaVar,
+        }),
+      })
+        .then((resposta) => {
+          if (resposta.ok) {
+            return resposta.json();
+          } else {
+            throw new Error("Erro ao cadastrar.");
+          }
+        })
+        .then(data => {
+          const idCadastro = data.idCadastro;
+          enviarQuestionario(idCadastro);
+        })
+        .catch((erro) => {
+          console.log("Erro:", erro);
+          alert("Erro ao cadastrar.");
+        });
+    }
+
+    function enviarQuestionario(idCadastro) {
+      const respostas = [];
+
+      for (let i = 1; i <= 10; i++) {
+        const input = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!input) {
+          alert(`Por favor, responda a pergunta ${i}.`);
+          return;
+        }
+        respostas.push({ pergunta: `q${i}`, resposta: input.value });
+      }
+
+      console.log("Enviando questionário:", { idCadastro, respostas });
+
+      fetch("/questionario/enviar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          idCadastro: idCadastro,
+          respostas: respostas
+        })
+      })
+        .then(res => {
+          if (res.ok) {
+            alert("Questionário enviado com sucesso!");
+            window.location.href = "dashboard/dashboard.html";
+          } else {
+            throw new Error("Erro ao enviar o questionário");
+          }
+        })
+        .catch(err => {
+          console.error(err);
+          alert("Erro ao enviar o questionário.");
+        });
+    }
+  </script>

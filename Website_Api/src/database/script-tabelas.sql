@@ -19,26 +19,29 @@ create table usuario(
 	endereco varchar(70),
 	cidade varchar(70),
 	estado char(2),
-	senha varchar(20)
+	senha varchar(255)
 );
 
 
-INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha)
-VALUES 
-('joao.silva@email.com', 'João Silva', '123.456.789-00', '1995-06-15', 'Rua das Flores, 123', 'São Paulo', 'SP', 'senha123');
+create table pergunta (
+    idPergunta int primary key auto_increment,
+    texto varchar(255)
+);
 
-INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha)
-VALUES 
-('maria.souza@email.com', 'Maria Souza', '987.654.321-00', '1988-12-01', 'Av. Brasil, 456', 'Rio de Janeiro', 'RJ', 'maria88');
+create table alternativa (
+    idAlternativa int primary key auto_increment,
+    fkPergunta int not null,
+    texto varchar(255),
+    foreign key (fkPergunta) references pergunta(idPergunta)
+);
 
-INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha)
-VALUES 
-('lucas.oliveira@email.com', 'Lucas Oliveira', '321.654.987-00', '2000-03-22', 'Rua Central, 789', 'Belo Horizonte', 'MG', 'lucas2000');
+create table resposta_usuario (
+    idResposta_Usuario int primary key auto_increment,
+    fkUsuario int not null,
+    fkPergunta int not null,
+    fkAlterativa int not null,
+    foreign key (fkUsuario) references usuario(idCadastro),
+    foreign key (fkPergunta) references pergunta(idPergunta),
+    foreign key (fkAlterativa) references alternativa(idAlternativa)
+);
 
-INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha)
-VALUES 
-('ana.costa@email.com', 'Ana Costa', '159.753.486-00', '1993-09-10', 'Av. das Américas, 1010', 'Curitiba', 'PR', 'ana1993');
-
-INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha)
-VALUES 
-('pedro.almeida@email.com', 'Pedro Almeida', '741.852.963-00', '1990-11-05', 'Rua do Comércio, 202', 'Porto Alegre', 'RS', 'pedro90');

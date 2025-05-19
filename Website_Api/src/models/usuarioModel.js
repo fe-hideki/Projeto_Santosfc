@@ -1,4 +1,4 @@
-var database = require("../database/config")
+var database = require("../database/db")
 
 function autenticar(email, senha) {
     var instrucaoSql = `
