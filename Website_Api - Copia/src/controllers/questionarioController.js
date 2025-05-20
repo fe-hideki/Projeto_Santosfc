@@ -31,7 +31,28 @@ function obterEstatisticas(req, res) {
     });
 }
 
+async function obterKPIs(req, res) {
+  try {
+    const [participantes] = await questionarioModel.contarParticipantes();
+    const [estados] = await questionarioModel.contarEstadosParticipantes();
+    const [jovens] = await questionarioModel.percentualJovens();
+    const [cidade] = await questionarioModel.cidadeMaisAtiva();
+
+    res.status(200).json({
+      totalParticipantes: participantes.total,
+      totalEstados: estados.total_estados,
+      percentualJovens: jovens.percentual_jovens,
+      cidadeMaisAtiva: cidade.cidade
+    });
+  } catch (erro) {
+    console.log(erro);
+    res.status(500).json({ erro: "Erro ao obter KPIs" });
+  }
+}
+
 module.exports = {
   salvarRespostas,
-  obterEstatisticas
+  obterEstatisticas,
+  obterKPIs
 };
+

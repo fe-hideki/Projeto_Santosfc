@@ -29,6 +29,13 @@
     <main style="padding: 20px;">
         <h2>Estatísticas do Questionário</h2>
 
+        <div class="kpi-grid" id="kpis">
+            <div class="kpi-card">👥 <span id="kpi_total">--</span><br><small>Total de Participantes</small></div>
+            <div class="kpi-card">🌎 <span id="kpi_estados">--</span><br><small>Estados Representados</small></div>
+            <div class="kpi-card">🧒 <span id="kpi_jovens">--%</span><br><small>Torcida Jovem</small></div>
+            <div class="kpi-card">📍 <span id="kpi_cidade">--</span><br><small>Cidade com Mais Respostas</small></div>
+        </div>
+
         <div class="graficos-grid">
             <div class="grafico-item"><canvas id="graficoQ1"></canvas></div>
             <div class="grafico-item"><canvas id="graficoQ2"></canvas></div>
@@ -49,7 +56,7 @@
             const valores = dados.map(d => d.total);
 
             new Chart(document.getElementById(ctxId), {
-                type: "pie",
+                type: "doughnut",
                 data: {
                     labels: labels,
                     datasets: [{
@@ -100,7 +107,23 @@
             sessionStorage.clear();
         }
 
-        window.onload = carregarGraficosQuestionario;
+        function carregarKPIs() {
+            fetch("/questionario/kpis")
+                .then(res => res.json())
+                .then(d => {
+                    document.getElementById("kpi_total").innerText = d.totalParticipantes;
+                    document.getElementById("kpi_estados").innerText = d.totalEstados;
+                    document.getElementById("kpi_jovens").innerText = d.percentualJovens + "%";
+                    document.getElementById("kpi_cidade").innerText = d.cidadeMaisAtiva;
+                })
+                .catch(err => console.error("Erro ao carregar KPIs:", err));
+        }
+
+
+        window.onload = function () {
+            carregarKPIs();
+            carregarGraficosQuestionario();
+        };
     </script>
 </body>
 

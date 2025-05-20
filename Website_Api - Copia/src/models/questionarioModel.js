@@ -25,3 +25,47 @@ module.exports = {
   inserirRespostas,
   obterEstatisticas
 };
+
+function contarParticipantes() {
+  const sql = `SELECT COUNT(*) AS total FROM questionario;`;
+  return database.executar(sql);
+}
+
+function contarEstadosParticipantes() {
+  const sql = `
+    SELECT COUNT(DISTINCT estado) AS total_estados
+    FROM usuario
+    JOIN questionario ON usuario.idCadastro = questionario.fkCadastro;
+  `;
+  return database.executar(sql);
+}
+
+function percentualJovens() {
+  const sql = `
+    SELECT
+      ROUND((SUM(CASE WHEN q10 IN ('Menos de 18', '18 a 29') THEN 1 ELSE 0 END) / COUNT(*)) * 100, 1) AS percentual_jovens
+    FROM questionario;
+  `;
+  return database.executar(sql);
+}
+
+function cidadeMaisAtiva() {
+  const sql = `
+    SELECT cidade, COUNT(*) AS total
+    FROM usuario
+    JOIN questionario ON usuario.idCadastro = questionario.fkCadastro
+    GROUP BY cidade
+    ORDER BY total DESC
+    LIMIT 1;
+  `;
+  return database.executar(sql);
+}
+
+module.exports = {
+  inserirRespostas,
+  obterEstatisticas,
+  contarParticipantes,
+  contarEstadosParticipantes,
+  percentualJovens,
+  cidadeMaisAtiva
+};
