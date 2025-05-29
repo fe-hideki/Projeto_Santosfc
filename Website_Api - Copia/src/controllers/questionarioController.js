@@ -1,20 +1,25 @@
 // Atualizado questionarioController.js com validação e parsing corretos
+// Importa o model do questionário
 var questionarioModel = require("../models/questionarioModel");
 
+// Recebe do front as respostas do questionário, valida e salva
 function salvarRespostas(req, res) {
   console.log("REQ.BODY RECEBIDO:", req.body);
-  const { idCadastro, respostas } = req.body;
+  const { id, respostas } = req.body;
 
-  if (!idCadastro || !Array.isArray(respostas) || respostas.length !== 10) {
+  // Validação básica dos dados
+  if (!id || !Array.isArray(respostas) || respostas.length !== 10) {
     return res.status(400).json({ mensagem: "Dados incompletos" });
   }
 
+  // Reformata o array para um objeto { pergunta: resposta }
   const respostasFormatadas = {};
   respostas.forEach(resp => {
     respostasFormatadas[resp.pergunta] = resp.resposta;
   });
 
-  questionarioModel.inserirRespostas(idCadastro, respostasFormatadas)
+  // Chama o model para inserir no banco
+  questionarioModel.inserirRespostas(id, respostasFormatadas)
     .then(() => res.status(200).json({ mensagem: "Respostas salvas com sucesso!" }))
     .catch((erro) => {
       console.error("Erro no model:", erro);
@@ -22,6 +27,7 @@ function salvarRespostas(req, res) {
     });
 }
 
+// Chama o model que traz estatísticas gerais e devolve para o front
 function obterEstatisticas(req, res) {
   questionarioModel.obterEstatisticas()
     .then(resultados => res.status(200).json(resultados))
@@ -31,6 +37,7 @@ function obterEstatisticas(req, res) {
     });
 }
 
+// Aguarda os resultados de várias consultas no model e retorna um objeto com os principais indicadores
 async function obterKPIs(req, res) {
   try {
     const [participantes] = await questionarioModel.contarParticipantes();
@@ -50,9 +57,11 @@ async function obterKPIs(req, res) {
   }
 }
 
+// Exporta as funções para serem usadas nas rotas
 module.exports = {
   salvarRespostas,
   obterEstatisticas,
   obterKPIs
 };
+
 

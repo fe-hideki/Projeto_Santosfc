@@ -159,7 +159,11 @@
   </section>
 
   <script>
+
+    // Cuida do cadastro do usuário e da validação do formulário
     function cadastrar() {
+
+      // Está pegando os valores dos inputs do HTML
       var emailVar = email_input.value;
       var nomeVar = nome_input.value;
       var cpfVar = cpf_input.value;
@@ -171,6 +175,7 @@
       var confirmacaoSenhaVar = confirmacao_senha_input.value;
 
       if (
+        // Checa se algum campo está vazio e mostra a div de erro caso esteja
         emailVar == "" ||
         nomeVar == "" ||
         cpfVar == "" ||
@@ -186,12 +191,14 @@
         return false;
       }
 
+      // Valida se a senha é igual a confirmação
       if (senhaVar !== confirmacaoSenhaVar) {
         cardErro.style.display = "block";
         mensagem_erro.innerHTML = "As senhas não coincidem!";
         return false;
       }
 
+      // Garante que todas as 10 perguntas foram respondidas
       for (let i = 1; i <= 10; i++) {
         const resposta = document.querySelector(`input[name="q${i}"]:checked`);
         if (!resposta) {
@@ -201,6 +208,8 @@
         }
       }
 
+      // ENVIA OS DADOS PARA O BACKEND
+      // Envia um POST para a rota /usuarios/cadastrar com os dados do formulário
       fetch("/usuarios/cadastrar", {
         method: "POST",
         headers: {
@@ -216,17 +225,17 @@
           estadoServer: estadoVar,
           senhaServer: senhaVar,
         }),
-      })
+      })// O fetch retorna uma Promise, por isso tem .then() e .cathc()
         .then((resposta) => {
           if (resposta.ok) {
             return resposta.json();
           } else {
             throw new Error("Erro ao cadastrar.");
           }
-        })
+        }) // Se o cadastro der certo, ele pega o idCadastro retornado pelo backend e chama enviarQuestionario() com esse ID
         .then(data => {
-          const idCadastro = data.idCadastro;
-          enviarQuestionario(idCadastro);
+          const id = data.id;
+          enviarQuestionario(id);
         })
         .catch((erro) => {
           console.log("Erro:", erro);
@@ -234,9 +243,12 @@
         });
     }
 
-    function enviarQuestionario(idCadastro) {
+    // Envia as respostas do questionário associadas ao ID do usuário cadastrado
+    function enviarQuestionario(id) {
       const respostas = [];
 
+      // Coleta novamente as respostas do questionário
+      // Cria um array de objetos com o formato {pergunta: "q1", resposta: "Pelé"} etc
       for (let i = 1; i <= 10; i++) {
         const input = document.querySelector(`input[name="q${i}"]:checked`);
         if (!input) {
@@ -246,22 +258,23 @@
         respostas.push({ pergunta: `q${i}`, resposta: input.value });
       }
 
-      console.log("Enviando questionário:", { idCadastro, respostas });
+      console.log("Enviando questionário:", { id, respostas });
 
+      // Envia essas respostas via POST para o servidor
       fetch("/questionario/enviar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          idCadastro: idCadastro,
+          id: id,
           respostas: respostas
         })
-      })
+      }) // Se tudo der certo redireciona para o login
         .then(res => {
           if (res.ok) {
             alert("Questionário enviado com sucesso!");
-            window.location.href = "dashboard/dashboard.html";
+            window.location.href = "login.html";
           } else {
             throw new Error("Erro ao enviar o questionário");
           }

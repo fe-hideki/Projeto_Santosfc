@@ -26,9 +26,11 @@
         </div>
     </header>
 
+    <!-- Conteúdo principal da página -->
     <main style="padding: 20px;">
         <h2>Estatísticas do Questionário</h2>
 
+        <!-- Indicadores principais (KPIs) do questionário -->
         <div class="kpi-grid" id="kpis">
             <div class="kpi-card">👥 <span id="kpi_total">--</span><br><small>Total de Participantes</small></div>
             <div class="kpi-card">🌎 <span id="kpi_estados">--</span><br><small>Estados Representados</small></div>
@@ -36,6 +38,7 @@
             <div class="kpi-card">📍 <span id="kpi_cidade">--</span><br><small>Cidade com Mais Respostas</small></div>
         </div>
 
+        <!-- Área onde os gráficos do questionário serão exibidos -->
         <div class="graficos-grid">
             <div class="grafico-item"><canvas id="graficoQ1"></canvas></div>
             <div class="grafico-item"><canvas id="graficoQ2"></canvas></div>
@@ -51,9 +54,10 @@
     </main>
 
     <script>
+        // Cria um gráfico do tipo "doughnut" (rosquinha) usando Chart.js
         function criarGrafico(ctxId, titulo, dados) {
-            const labels = dados.map(d => d.resposta);
-            const valores = dados.map(d => d.total);
+            const labels = dados.map(d => d.resposta); // Extrai as respostas como rótulos
+            const valores = dados.map(d => d.total);   // Extrai os totais de cada resposta
 
             new Chart(document.getElementById(ctxId), {
                 type: "doughnut",
@@ -85,9 +89,10 @@
             });
         }
 
+        // Carrega os dados das estatísticas do questionário e cria os gráficos
         function carregarGraficosQuestionario() {
             fetch("/questionario/estatisticas")
-                .then(res => res.json())
+                .then(res => res.json()) // Converte a resposta em JSON
                 .then(([q1, q2, q3, q4, q5, q6, q7, q8, q9, q10]) => {
                     criarGrafico("graficoQ1", "1. Maior jogador da história do Santos", q1);
                     criarGrafico("graficoQ2", "2. Título mais marcante do Santos", q2);
@@ -103,13 +108,15 @@
                 .catch(err => console.error("Erro ao carregar estatísticas:", err));
         }
 
+        // Limpa a sessão do navegador (ex: ao sair do sistema)
         function limparSessao() {
             sessionStorage.clear();
         }
 
+        // Carrega os dados dos KPIs do questionário e exibe na tela
         function carregarKPIs() {
             fetch("/questionario/kpis")
-                .then(res => res.json())
+                .then(res => res.json()) // Converte a resposta em JSON
                 .then(d => {
                     document.getElementById("kpi_total").innerText = d.totalParticipantes;
                     document.getElementById("kpi_estados").innerText = d.totalEstados;
@@ -119,7 +126,7 @@
                 .catch(err => console.error("Erro ao carregar KPIs:", err));
         }
 
-
+        // Quando a página carregar, chama as funções para carregar dados
         window.onload = function () {
             carregarKPIs();
             carregarGraficosQuestionario();

@@ -11,7 +11,7 @@ CREATE DATABASE portal_do_peixe;
 USE portal_do_peixe;
 
 create table usuario(
-	idCadastro int not null auto_increment primary key,
+	id int not null auto_increment primary key,
 	email varchar(70),
 	nome varchar(70),
 	cpf char(14),
@@ -22,9 +22,9 @@ create table usuario(
 	senha varchar(255)
 );
 
-CREATE TABLE questionario (
+CREATE TABLE resposta (
   id INT PRIMARY KEY AUTO_INCREMENT,
-  fkCadastro INT,
+  fkUsuario INT,
   q1 VARCHAR(255),
   q2 VARCHAR(255),
   q3 VARCHAR(255),
@@ -35,7 +35,7 @@ CREATE TABLE questionario (
   q8 VARCHAR(255),
   q9 VARCHAR(255),
   q10 VARCHAR(255),
-  FOREIGN KEY (fkCadastro) REFERENCES usuario(idCadastro)
+  FOREIGN KEY (fkUsuario) REFERENCES usuario(id)
 );
 
 INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, senha) VALUES
@@ -50,7 +50,7 @@ INSERT INTO usuario (email, nome, cpf, nascimento, endereco, cidade, estado, sen
 ('fernando.ferreira@gmail.com', 'Fernando Ferreira', '901.234.567-88', '1993-04-25', 'Rua I, 900', 'Praia Grande', 'SP', 'senha123'),
 ('carolina.mendes@gmail.com', 'Carolina Mendes', '012.345.678-99', '1999-09-09', 'Rua J, 1000', 'Santos', 'SP', 'senha123');
 
-INSERT INTO questionario (fkCadastro, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) VALUES
+INSERT INTO resposta (fkUsuario, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) VALUES
 (1, 'Pelé', 'Libertadores 2011', 'Lula', 'Libertadores', 'Anos 60', 'Neymar', 'Vila Belmiro', 'Corinthians', 'Tradicional listrada', '18 a 29'),
 (2, 'Neymar', 'Brasileirão 2002', 'Muricy Ramalho', 'Mundial de Clubes', 'Anos 2010', 'Robinho', 'Pacaembu', 'Palmeiras', 'Preta reserva', '30 a 45'),
 (3, 'Pelé', 'Mundial 1962', 'Lula', 'Brasileirão', 'Anos 60', 'Giovanni', 'Vila Belmiro', 'Flamengo', 'Branca lisa', 'Mais de 45'),
@@ -68,6 +68,6 @@ INSERT INTO questionario (fkCadastro, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) V
 
 
 select * from usuario;
-select * from questionario;
+select * from resposta;
 
 

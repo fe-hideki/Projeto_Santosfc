@@ -78,9 +78,11 @@
     function entrar() {
         aguardar();
 
+        // Pega os valores digitados nos campos
         var emailVar = email_input.value;
         var senhaVar = senha_input.value;
 
+        // Validações
         if (emailVar == "" || senhaVar == "") {
             cardErro.style.display = "block"
             mensagem_erro.innerHTML = "(Mensagem de erro para todos os campos em branco)";
@@ -94,6 +96,8 @@
         console.log("FORM LOGIN: ", emailVar);
         console.log("FORM SENHA: ", senhaVar);
 
+
+        // Aqui está enviando um POST para /usuarios/autenticar com o email e senha para o backend fazer a autenticação
         fetch("/usuarios/autenticar", {
             method: "POST",
             headers: {
@@ -103,20 +107,22 @@
                 emailServer: emailVar,
                 senhaServer: senhaVar
             })
+
+            // Se o backend responder com sucesso(resposta.ok), pega os dados do usuário no JSON.
         }).then(function (resposta) {
             console.log("ESTOU NO THEN DO entrar()!")
 
             if (resposta.ok) {
                 console.log(resposta);
-
+                // Armazena esses dados no sessionStorage
                 resposta.json().then(json => {
                     console.log(json);
                     console.log(JSON.stringify(json));
                     sessionStorage.EMAIL_USUARIO = json.email;
                     sessionStorage.NOME_USUARIO = json.nome;
-                    sessionStorage.ID_USUARIO = json.idCadastro
+                    sessionStorage.ID_USUARIO = json.id
 
-
+                    // Depois de um segundo redireciona para a dashboard
                     setTimeout(function () {
                         window.location = "./dashboard/dashboard.html";
                     }, 1000); // apenas para exibir o loading
@@ -125,6 +131,7 @@
 
             } else {
 
+                // Se houver erro exibe erro
                 console.log("Houve um erro ao tentar realizar o login!");
 
                 resposta.text().then(texto => {
