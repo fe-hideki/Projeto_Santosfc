@@ -62,12 +62,72 @@ INSERT INTO resposta (fkUsuario, q1, q2, q3, q4, q5, q6, q7, q8, q9, q10) VALUES
 (9, 'Coutinho', 'Paulistão 2010', 'Dorival Júnior', 'Libertadores', 'Anos 2000', 'Rodrygo', 'Maracanã', 'Palmeiras', 'Retrô', 'Menos de 18'),
 (10, 'Zito', 'Libertadores 2011', 'Leão', 'Mundial de Clubes', 'Anos 2010', 'Giovanni', 'Morumbi', 'Corinthians', 'Branca lisa', '18 a 29');
 
+-- Usuários que moram em Santos:
+SELECT nome, email FROM usuario
+WHERE cidade = 'Santos';
+
+-- Usuários nascidos após 1990:
+SELECT nome, nascimento FROM usuario
+WHERE nascimento > '1990-01-01';
+
+-- Buscar usuários cujo nome começa com 'J':
+SELECT nome, email FROM usuario
+WHERE nome LIKE 'J%';
+
+-- Ordenar usuários por data de nascimento (do mais novo para o mais velho):
+SELECT nome, nascimento FROM usuario
+ORDER BY nascimento DESC;
+
+-- Listar o nome dos usuários junto com suas respostas à pergunta 1 (q1):
+SELECT u.nome, r.q1 FROM usuario u
+JOIN resposta r ON u.id = r.fkUsuario;
+
+-- Contar quantos usuários escolheram 'Pelé' como resposta na q1:
+SELECT q1, COUNT(*) AS total FROM resposta
+WHERE q1 = 'Pelé'
+GROUP BY q1;
+
+-- Total de respostas por cidade:
+SELECT u.cidade, COUNT(r.id) AS total_respostas
+FROM usuario u
+JOIN resposta r ON u.id = r.fkUsuario
+GROUP BY u.cidade;
+
+-- Quantidade de usuários por faixa etária (q10):
+SELECT q10 AS faixa_etaria, COUNT(*) AS quantidade
+FROM resposta
+GROUP BY q10
+ORDER BY quantidade DESC;
+
+-- Quem respondeu "Neymar" na q6 e mora em 'São Paulo'?
+SELECT u.nome, u.cidade, r.q6 FROM usuario u
+JOIN resposta r ON u.id = r.fkUsuario
+WHERE r.q6 = 'Neymar' AND u.cidade = 'São Paulo';
+
+-- Usuário(s) mais velho(s) do sistema:
+SELECT nome, nascimento FROM usuario
+WHERE nascimento = (SELECT MIN(nascimento) FROM usuario);
+
+-- Cidades com mais de um usuário respondente:
+SELECT cidade, COUNT(*) AS total_usuarios FROM usuario
+GROUP BY cidade
+HAVING COUNT(*) > 1;
+
+-- Ranking de popularidade da q4 (competição preferida), com porcentagem:
+SELECT q4 AS competencia, COUNT(*) AS total,
+       ROUND((COUNT(*) * 100.0 / (SELECT COUNT(*) FROM resposta)), 2) AS percentual
+FROM resposta
+GROUP BY q4
+ORDER BY total DESC;
+
+-- Nome, idade atual e faixa etária de cada usuário:
+SELECT u.nome,
+       TIMESTAMPDIFF(YEAR, u.nascimento, CURDATE()) AS idade,
+       r.q10 AS faixa_etaria
+FROM usuario u
+JOIN resposta r ON u.id = r.fkUsuario;
 
 
 
-
-
-select * from usuario;
-select * from resposta;
-
-
+SELECT * FROM usuario;
+SELECT * FROM resposta;

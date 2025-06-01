@@ -1,6 +1,5 @@
 // Importa os models
 var usuarioModel = require("../models/usuarioModel");
-var aquarioModel = require("../models/aquarioModel");
 
 // Login do usuário
 function autenticar(req, res) {
